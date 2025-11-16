@@ -73,7 +73,7 @@ export default function DownloadSection() {
   const navy = '#0A1E5E'
 
   return (
-    <div className="w-full max-w-5xl mx-auto space-y-12 pb-20">
+    <div className="w-full max-w-5xl mx-auto space-y-12 pb-20 select-none">
       {/* Download Buttons */}
       <div className="text-center space-y-6">
         <h2 className="text-4xl md:text-5xl font-serif font-bold tracking-tight text-[rgb(237,254,193)] mb-4">
@@ -108,10 +108,10 @@ export default function DownloadSection() {
                 <div style={{ color: isSelected || isHovered ? navy : cream }}>
                   <OSIcon os={link.os} className="w-12 h-12" />
                 </div>
-                <span className="text-5xl md:text-7xl font-bold">
+                <span className="text-5xl md:text-7xl font-bold select-none">
                   {link.name}
                 </span>
-                <span className="text-sm font-normal opacity-80">{link.extension}</span>
+                <span className="text-sm font-normal opacity-80 select-none">{link.extension}</span>
                 <Download className="w-6 h-6 mt-1" />
               </button>
             )
@@ -137,7 +137,7 @@ export default function DownloadSection() {
           <div className="space-y-4">
             <div className="flex gap-4 items-start">
               <div 
-                className="flex-shrink-0 w-8 h-8 flex items-center justify-center text-lg font-bold"
+                className="flex-shrink-0 w-8 h-8 flex items-center justify-center text-lg font-bold select-none"
                 style={{
                   backgroundColor: cream,
                   color: navy,
@@ -153,7 +153,7 @@ export default function DownloadSection() {
             
             <div className="flex gap-4 items-start">
               <div 
-                className="flex-shrink-0 w-8 h-8 flex items-center justify-center text-lg font-bold"
+                className="flex-shrink-0 w-8 h-8 flex items-center justify-center text-lg font-bold select-none"
                 style={{
                   backgroundColor: cream,
                   color: navy,
@@ -169,7 +169,7 @@ export default function DownloadSection() {
             
             <div className="flex gap-4 items-start">
               <div 
-                className="flex-shrink-0 w-8 h-8 flex items-center justify-center text-lg font-bold"
+                className="flex-shrink-0 w-8 h-8 flex items-center justify-center text-lg font-bold select-none"
                 style={{
                   backgroundColor: cream,
                   color: navy,
@@ -185,7 +185,7 @@ export default function DownloadSection() {
             
             <div className="flex gap-4 items-start">
               <div 
-                className="flex-shrink-0 w-8 h-8 flex items-center justify-center text-lg font-bold"
+                className="flex-shrink-0 w-8 h-8 flex items-center justify-center text-lg font-bold select-none"
                 style={{
                   backgroundColor: cream,
                   color: navy,
@@ -199,7 +199,7 @@ export default function DownloadSection() {
                   {steps.run}
                 </p>
                 <div 
-                  className="p-4 font-mono text-sm"
+                  className="p-4 font-mono text-sm code-snippet"
                   style={{
                     backgroundColor: navy,
                     color: cream,
@@ -229,7 +229,7 @@ export default function DownloadSection() {
           Quick Reference
         </h3>
         <div 
-          className="p-4 font-mono text-sm overflow-x-auto"
+          className="p-4 font-mono text-sm overflow-x-auto code-snippet"
           style={{
             backgroundColor: navy,
             color: cream,

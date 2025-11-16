@@ -64,7 +64,7 @@ export default function PostItNote({
           overflow: 'hidden'
         }}
       >
-        <span style={{ position: 'relative', zIndex: 1 }}>{title}</span>
+        <span style={{ position: 'relative', zIndex: 1 }} className="select-none">{title}</span>
       </div>
     </div>
   )

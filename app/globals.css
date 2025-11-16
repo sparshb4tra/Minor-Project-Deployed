@@ -189,3 +189,27 @@ body {
 .animate-scroll {
   animation: scroll 20s linear infinite;
 }
+
+/* Custom selection styling for code snippets - theme colors */
+.code-snippet::selection {
+  background-color: rgb(237, 254, 193);
+  color: #0A1E5E;
+}
+
+.code-snippet::-moz-selection {
+  background-color: rgb(237, 254, 193);
+  color: #0A1E5E;
+}
+
+/* Also apply to pre and code elements */
+pre::selection,
+code::selection {
+  background-color: rgb(237, 254, 193);
+  color: #0A1E5E;
+}
+
+pre::-moz-selection,
+code::-moz-selection {
+  background-color: rgb(237, 254, 193);
+  color: #0A1E5E;
+}

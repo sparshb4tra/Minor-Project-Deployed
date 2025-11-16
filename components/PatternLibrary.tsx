@@ -26,12 +26,11 @@ function shuffleArray<T>(array: T[], seed?: number): T[] {
   return shuffled
 }
 
-export default function PatternLibrary({ randomize = false, seed }: PatternLibraryProps) {
-  const [patterns, setPatterns] = useState([])
+type PatternFunction = (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[], frame?: number) => void
 
-  // Pattern drawing functions
-  const drawPatterns = {
-    horizontalLines: (ctx, w, h, colors) => {
+// Pattern drawing functions - defined outside component to avoid React Hook dependency warning
+const drawPatterns: Record<string, PatternFunction> = {
+    horizontalLines: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       const lineHeight = 3
       const spacing = 2
       for (let y = 0; y < h; y += lineHeight + spacing) {
@@ -39,7 +38,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         ctx.fillRect(0, y, w, lineHeight)
       }
     },
-    diagonalLines: (ctx, w, h, colors) => {
+    diagonalLines: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.strokeStyle = colors[0]
       ctx.lineWidth = 2
       for (let i = -h; i < w; i += 5) {
@@ -49,7 +48,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         ctx.stroke()
       }
     },
-    verticalLines: (ctx, w, h, colors) => {
+    verticalLines: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       const lineWidth = 2
       const spacing = 3
       for (let x = 0; x < w; x += lineWidth + spacing) {
@@ -57,7 +56,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         ctx.fillRect(x, 0, lineWidth, h)
       }
     },
-    diagonalStripes: (ctx, w, h, colors) => {
+    diagonalStripes: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.fillStyle = colors[0]
       for (let i = -h; i < w + h; i += 8) {
         ctx.beginPath()
@@ -68,7 +67,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         ctx.fill()
       }
     },
-    moire: (ctx, w, h, colors) => {
+    moire: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.strokeStyle = colors[0]
       ctx.lineWidth = 1
       for (let i = 0; i < 20; i++) {
@@ -77,7 +76,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         ctx.stroke()
       }
     },
-    smallDots: (ctx, w, h, colors) => {
+    smallDots: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       const dotSize = 1
       const spacing = 4
       ctx.fillStyle = colors[0]
@@ -87,7 +86,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         }
       }
     },
-    mediumDots: (ctx, w, h, colors) => {
+    mediumDots: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       const dotSize = 2
       const spacing = 6
       ctx.fillStyle = colors[0]
@@ -97,7 +96,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         }
       }
     },
-    largeDots: (ctx, w, h, colors) => {
+    largeDots: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       const dotSize = 4
       const spacing = 8
       ctx.fillStyle = colors[0]
@@ -107,23 +106,23 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         }
       }
     },
-    topStripe: (ctx, w, h, colors) => {
+    topStripe: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.fillStyle = colors[0]
       ctx.fillRect(0, 0, w, h * 0.3)
     },
-    bottomStripe: (ctx, w, h, colors) => {
+    bottomStripe: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.fillStyle = colors[0]
       ctx.fillRect(0, h * 0.7, w, h * 0.3)
     },
-    leftStripe: (ctx, w, h, colors) => {
+    leftStripe: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.fillStyle = colors[0]
       ctx.fillRect(0, 0, w * 0.3, h)
     },
-    rightStripe: (ctx, w, h, colors) => {
+    rightStripe: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.fillStyle = colors[0]
       ctx.fillRect(w * 0.7, 0, w * 0.3, h)
     },
-    diagonal: (ctx, w, h, colors) => {
+    diagonal: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.fillStyle = colors[0]
       ctx.beginPath()
       ctx.moveTo(0, 0)
@@ -131,7 +130,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
       ctx.lineTo(w, 0)
       ctx.fill()
     },
-    reverseDiagonal: (ctx, w, h, colors) => {
+    reverseDiagonal: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.fillStyle = colors[0]
       ctx.beginPath()
       ctx.moveTo(0, 0)
@@ -139,25 +138,25 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
       ctx.lineTo(w, h)
       ctx.fill()
     },
-    circle: (ctx, w, h, colors) => {
+    circle: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.fillStyle = colors[0]
       ctx.beginPath()
       ctx.arc(w/2, h/2, Math.min(w, h) * 0.3, 0, Math.PI * 2)
       ctx.fill()
     },
-    largeCircle: (ctx, w, h, colors) => {
+    largeCircle: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.fillStyle = colors[0]
       ctx.beginPath()
       ctx.arc(w/2, h/2, Math.min(w, h) * 0.45, 0, Math.PI * 2)
       ctx.fill()
     },
-    smallDot: (ctx, w, h, colors) => {
+    smallDot: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.fillStyle = colors[0]
       ctx.beginPath()
       ctx.arc(w/2, h/2, 3, 0, Math.PI * 2)
       ctx.fill()
     },
-    zigzag: (ctx, w, h, colors) => {
+    zigzag: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.strokeStyle = colors[0]
       ctx.lineWidth = 2
       const amplitude = h / 3
@@ -170,7 +169,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         ctx.stroke()
       }
     },
-    waves: (ctx, w, h, colors) => {
+    waves: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.strokeStyle = colors[0]
       ctx.lineWidth = 2
       for (let y = 0; y < h; y += 8) {
@@ -183,7 +182,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         ctx.stroke()
       }
     },
-    diamonds: (ctx, w, h, colors) => {
+    diamonds: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.fillStyle = colors[0]
       const size = 8
       for (let y = 0; y < h; y += size) {
@@ -197,7 +196,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         }
       }
     },
-    checkerboard: (ctx, w, h, colors) => {
+    checkerboard: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       const size = 8
       ctx.fillStyle = colors[0]
       for (let y = 0; y < h; y += size) {
@@ -208,7 +207,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         }
       }
     },
-    largeCheckerboard: (ctx, w, h, colors) => {
+    largeCheckerboard: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       const size = 16
       ctx.fillStyle = colors[0]
       for (let y = 0; y < h; y += size) {
@@ -219,7 +218,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         }
       }
     },
-    grid: (ctx, w, h, colors) => {
+    grid: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.strokeStyle = colors[0]
       ctx.lineWidth = 1
       const spacing = 8
@@ -236,7 +235,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         ctx.stroke()
       }
     },
-    largeGrid: (ctx, w, h, colors) => {
+    largeGrid: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.strokeStyle = colors[0]
       ctx.lineWidth = 2
       const spacing = 16
@@ -253,7 +252,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         ctx.stroke()
       }
     },
-    crosshatch: (ctx, w, h, colors) => {
+    crosshatch: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.strokeStyle = colors[0]
       ctx.lineWidth = 1
       for (let i = 0; i < w; i += 4) {
@@ -267,7 +266,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         ctx.stroke()
       }
     },
-    triangles: (ctx, w, h, colors) => {
+    triangles: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.fillStyle = colors[0]
       const size = 12
       for (let y = 0; y < h; y += size) {
@@ -280,7 +279,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         }
       }
     },
-    circles: (ctx, w, h, colors) => {
+    circles: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.fillStyle = colors[0]
       const spacing = 10
       const radius = 3
@@ -292,7 +291,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         }
       }
     },
-    scales: (ctx, w, h, colors) => {
+    scales: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.strokeStyle = colors[0]
       ctx.lineWidth = 1
       const radius = 8
@@ -304,7 +303,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         }
       }
     },
-    hexagons: (ctx, w, h, colors) => {
+    hexagons: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.strokeStyle = colors[0]
       ctx.lineWidth = 1
       const size = 6
@@ -325,7 +324,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
       }
     },
     // Animated patterns
-    radial: (ctx, w, h, colors, frame = 0) => {
+    radial: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[], frame = 0) => {
       const centerX = w / 2
       const centerY = h / 2
       const dotSize = 2
@@ -353,7 +352,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         }
       }
     },
-    wave: (ctx, w, h, colors, frame = 0) => {
+    wave: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[], frame = 0) => {
       const dotSize = 2
       const spacing = 4
       const time = frame * 0.05
@@ -375,7 +374,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         }
       }
     },
-    animatedGrid: (ctx, w, h, colors, frame = 0) => {
+    animatedGrid: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[], frame = 0) => {
       const dotSize = 2
       const spacing = 4
       const time = frame * 0.05
@@ -389,7 +388,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         }
       }
     },
-    plus: (ctx, w, h, colors) => {
+    plus: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.fillStyle = colors[0]
       const centerX = w / 2
       const centerY = h / 2
@@ -397,7 +396,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
       ctx.fillRect(centerX - size/2, centerY - 2, size, 4)
       ctx.fillRect(centerX - 2, centerY - size/2, 4, size)
     },
-    heart: (ctx, w, h, colors) => {
+    heart: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.fillStyle = colors[0]
       const size = 6
       const spacing = 10
@@ -413,7 +412,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         }
       }
     },
-    rotatedDiamonds: (ctx, w, h, colors) => {
+    rotatedDiamonds: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.fillStyle = colors[0]
       const size = 10
       for (let y = 0; y < h; y += size) {
@@ -426,7 +425,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         }
       }
     },
-    dotsWithCorner: (ctx, w, h, colors) => {
+    dotsWithCorner: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       const dotSize = 1
       const spacing = 4
       ctx.fillStyle = colors[0]
@@ -438,7 +437,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
       // Add corner square
       ctx.fillRect(w - 12, h - 12, 8, 8)
     },
-    dotsCircle: (ctx, w, h, colors) => {
+    dotsCircle: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       const dotSize = 1
       const spacing = 3
       const centerX = w / 2
@@ -459,7 +458,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
       ctx.fillRect(centerX - 2, centerY - 6, 4, 12)
       ctx.fillRect(centerX - 6, centerY - 2, 12, 4)
     },
-    dotsZigzag: (ctx, w, h, colors) => {
+    dotsZigzag: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       const dotSize = 1
       const spacing = 3
       ctx.fillStyle = colors[0]
@@ -470,7 +469,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         }
       }
     },
-    dotsDiagonal: (ctx, w, h, colors) => {
+    dotsDiagonal: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       const dotSize = 1
       const spacing = 3
       ctx.fillStyle = colors[0]
@@ -482,7 +481,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         }
       }
     },
-    fourTriangles: (ctx, w, h, colors) => {
+    fourTriangles: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       const midX = w / 2
       const midY = h / 2
       // Top-left triangle
@@ -517,7 +516,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
       ctx.lineTo(midX, h)
       ctx.fill()
     },
-    verticalCheckerboard: (ctx, w, h, colors) => {
+    verticalCheckerboard: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       const size = 8
       ctx.fillStyle = colors[0]
       for (let y = 0; y < h; y += size) {
@@ -530,7 +529,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         }
       }
     },
-    smallSquares: (ctx, w, h, colors) => {
+    smallSquares: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.fillStyle = colors[0]
       const size = 4
       const spacing = 6
@@ -540,7 +539,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         }
       }
     },
-    largeSquares: (ctx, w, h, colors) => {
+    largeSquares: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.fillStyle = colors[0]
       const size = 8
       const spacing = 10
@@ -550,7 +549,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         }
       }
     },
-    diagonalWaves: (ctx, w, h, colors) => {
+    diagonalWaves: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.strokeStyle = colors[0]
       ctx.lineWidth = 2
       for (let i = -h; i < w + h; i += 8) {
@@ -564,7 +563,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         ctx.stroke()
       }
     },
-    concentricSquares: (ctx, w, h, colors) => {
+    concentricSquares: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.strokeStyle = colors[0]
       ctx.lineWidth = 1
       const centerX = w / 2
@@ -574,7 +573,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         ctx.strokeRect(centerX - size/2, centerY - size/2, size, size)
       }
     },
-    spiral: (ctx, w, h, colors) => {
+    spiral: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.strokeStyle = colors[0]
       ctx.lineWidth = 2
       const centerX = w / 2
@@ -589,7 +588,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
       }
       ctx.stroke()
     },
-    stars: (ctx, w, h, colors) => {
+    stars: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.fillStyle = colors[0]
       const size = 8
       const spacing = 12
@@ -608,7 +607,7 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         }
       }
     },
-    arrows: (ctx, w, h, colors) => {
+    arrows: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       ctx.fillStyle = colors[0]
       const size = 8
       const spacing = 12
@@ -624,14 +623,25 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
         }
       }
     },
-  }
+}
+
+interface Pattern {
+  id: number
+  name: string
+  draw: PatternFunction
+  ref: React.RefObject<HTMLCanvasElement>
+  animated: boolean
+}
+
+export default function PatternLibrary({ randomize = false, seed }: PatternLibraryProps) {
+  const [patterns, setPatterns] = useState<Pattern[]>([])
 
   useEffect(() => {
     let patternList = Object.keys(drawPatterns).map((name, i) => ({
       id: i,
       name,
       draw: drawPatterns[name],
-      ref: React.createRef(),
+      ref: React.createRef<HTMLCanvasElement>(),
       animated: ['radial', 'wave', 'animatedGrid'].includes(name),
     }))
     

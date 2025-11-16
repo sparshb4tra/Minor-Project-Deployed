@@ -1,27 +1,13 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Download, ChevronDown } from 'lucide-react'
 import OSIcon from './OSIcon'
 
 type OS = 'windows' | 'mac' | 'linux'
 
 export default function DownloadButton() {
-  const [os, setOs] = useState<OS>('windows')
   const [isOpen, setIsOpen] = useState(false)
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const userAgent = window.navigator.userAgent.toLowerCase()
-      if (userAgent.includes('win')) {
-        setOs('windows')
-      } else if (userAgent.includes('mac')) {
-        setOs('mac')
-      } else if (userAgent.includes('linux')) {
-        setOs('linux')
-      }
-    }
-  }, [])
 
   const downloadLinks = {
     windows: {
@@ -44,8 +30,8 @@ export default function DownloadButton() {
     },
   }
 
-  const handleDownload = () => {
-    const link = downloadLinks[os]
+  const handleDownload = (selectedOs: OS) => {
+    const link = downloadLinks[selectedOs]
     const a = document.createElement('a')
     a.href = link.file
     a.download = link.file.split('/').pop() || 'download'
@@ -80,15 +66,10 @@ export default function DownloadButton() {
                   <button
                     key={key}
                     onClick={() => {
-                      setOs(key as OS)
-                      handleDownload()
+                      handleDownload(key as OS)
                     }}
                     style={{ borderRadius: '0px' }}
-                    className={`w-full flex items-center gap-3 px-4 py-3 transition-all duration-200 ${
-                      os === key
-                        ? 'bg-[rgb(237,254,193)]/20 border border-[rgb(237,254,193)]/50'
-                        : 'hover:bg-[rgb(237,254,193)]/10 border border-transparent'
-                    }`}
+                    className="w-full flex items-center gap-3 px-4 py-3 transition-all duration-200 hover:bg-[rgb(237,254,193)]/10 border border-transparent"
                   >
                     <OSIcon os={link.os} className="w-6 h-6 text-[rgb(237,254,193)]" />
                     <div className="flex-1 text-left">
@@ -99,9 +80,6 @@ export default function DownloadButton() {
                         {link.extension}
                       </div>
                     </div>
-                    {os === key && (
-                      <div className="w-2 h-2 bg-[rgb(237,254,193)]" style={{ borderRadius: '0px' }} />
-                    )}
                   </button>
                 ))}
               </div>

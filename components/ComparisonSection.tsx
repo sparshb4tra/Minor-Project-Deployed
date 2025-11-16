@@ -41,13 +41,13 @@ export default function ComparisonSection() {
   ]
 
   return (
-    <div id="page-2" className="relative min-h-[800px] pr-[480px] pb-20">
-      <h2 className="text-3xl md:text-4xl font-serif font-bold tracking-tight mb-12 text-center select-none">
+    <div id="page-2" className="relative min-h-[800px] pr-[480px] pb-20 select-none">
+      <h2 className="text-3xl md:text-4xl font-serif font-bold tracking-tight mb-12 text-center">
         Why <span className="font-script italic">Local AI  </span>   Chat?
       </h2>
       
       {/* Metrics Chart - Right column */}
-      <div className="absolute right-[470px] top-[50px] w-[480px] p-6 z-20 select-none">
+      <div className="absolute right-[470px] top-[50px] w-[480px] p-6 z-20">
         <MetricsChart />
       </div>
 

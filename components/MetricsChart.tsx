@@ -13,7 +13,7 @@ export default function MetricsChart() {
   const maxValue = 100
 
   return (
-    <div className="w-full p-6" style={{ 
+    <div className="w-full p-6 select-none" style={{ 
       borderRadius: '0px',
       background: 'linear-gradient(to bottom, rgba(10, 30, 94, 0.3), rgba(10, 30, 94, 0.1))'
     }}>
