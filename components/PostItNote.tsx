@@ -1,5 +1,7 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+
 interface PostItNoteProps {
   title: string
   variant?: 'beige' | 'blue'
@@ -13,37 +15,61 @@ export default function PostItNote({
   rotation = 0,
   position
 }: PostItNoteProps) {
+  const [isDesktop, setIsDesktop] = useState(false)
+  const [mobileRotation] = useState(() => Math.random() * 4 - 2) // Random rotation between -2 and 2 degrees
   const cream = 'rgb(237, 254, 193)'
   const navy = '#0A1E5E'
+  
+  useEffect(() => {
+    const checkDesktop = () => setIsDesktop(window.innerWidth >= 768)
+    checkDesktop()
+    window.addEventListener('resize', checkDesktop)
+    return () => window.removeEventListener('resize', checkDesktop)
+  }, [])
   
   const isBeige = variant === 'beige'
   const bgColor = isBeige ? cream : navy
   const textColor = isBeige ? navy : cream
   const naturalRotation = rotation || 0
   
+  const getTransform = () => {
+    if (isDesktop && position) {
+      return `rotate(${naturalRotation}deg)`
+    } else if (!isDesktop) {
+      return `rotate(${mobileRotation}deg)`
+    }
+    return undefined
+  }
+  
+  const desktopStyle = isDesktop && position ? {
+    left: `${position.x}px`,
+    top: `${position.y}px`,
+  } : {}
+  
+  const transform = getTransform()
+  
   return (
     <div
-      className="absolute"
+      className="relative md:absolute mb-4 md:mb-0"
       style={{
-        left: position?.x ? `${position.x}px` : 'auto',
-        top: position?.y ? `${position.y}px` : 'auto',
-        transform: `rotate(${naturalRotation}deg)`,
-        transformOrigin: 'center',
+        ...desktopStyle,
+        ...(transform ? { transform, transformOrigin: 'center' } : {}),
         zIndex: 15
       }}
     >
       <div
-        className="px-12 py-14"
+        className="px-8 py-10 md:px-12 md:py-14"
         style={{
           backgroundColor: bgColor,
           color: textColor,
-          width: '320px',
-          minHeight: '240px',
+          width: '100%',
+          maxWidth: '280px',
+          minHeight: '200px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           fontFamily: 'var(--font-ios)',
-          fontSize: '2.25rem',
+          fontSize: 'clamp(1.5rem, 4vw, 2.25rem)',
           fontWeight: '700',
           letterSpacing: '-0.03em',
           lineHeight: '1.1',
@@ -59,10 +85,11 @@ export default function PostItNote({
           border: 'none',
           borderRadius: '0px',
           position: 'relative',
-          overflow: 'hidden'
+          overflow: 'hidden',
+          margin: '0 auto'
         }}
       >
-        <span style={{ position: 'relative', zIndex: 1 }} className="select-none">{title}</span>
+        <span style={{ position: 'relative', zIndex: 1, fontSize: 'inherit' }} className="select-none">{title}</span>
       </div>
     </div>
   )

@@ -85,7 +85,7 @@ export default function WarpedSpacePattern() {
         overflow: 'hidden',
         width: '100vw',
         maxWidth: 'none',
-        marginLeft: 'calc(-38vw + 50%)',
+        marginLeft: 'calc(-50vw + 50%)',
         marginRight: 0,
         left: 0,
         right: 0,

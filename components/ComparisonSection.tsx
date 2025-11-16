@@ -38,28 +38,41 @@ export default function ComparisonSection() {
   ]
 
   return (
-    <div id="page-2" className="relative min-h-[800px] pr-[480px] pb-20 select-none">
-      <h2 className="text-3xl md:text-4xl font-serif font-bold tracking-tight mb-12 text-center">
+    <div id="page-2" className="relative min-h-[600px] md:min-h-[800px] pb-12 md:pb-20 md:pr-[480px] select-none">
+      <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif font-bold tracking-tight mb-8 md:mb-12 text-center px-4">
         Why <span className="font-script italic">Local AI  </span>   Chat?
       </h2>
       
-      <div className="absolute right-[470px] top-[50px] w-[480px] p-6 z-20">
-        <MetricsChart />
-      </div>
-      {shuffledTitles.length > 0 && shuffledTitles.map((title, index) => {
+      {/* Post It Cards - shown first on mobile, stacked vertically with slight overlap */}
+      <div className="flex flex-col md:contents px-4 md:px-0 mb-6 md:mb-0 md:gap-0">
+        {shuffledTitles.length > 0 && shuffledTitles.map((title, index) => {
         const position = postItPositions[index] || { x: 100, y: 100, rotation: 0 }
         const variant: 'beige' | 'blue' = [0, 3, 4].includes(index) ? 'blue' : 'beige'
         
         return (
-          <PostItNote
+          <div 
             key={`${title}-${index}`}
-            title={title}
-            variant={variant}
-            rotation={position.rotation}
-            position={{ x: position.x, y: position.y }}
-          />
+            className="md:contents"
+            style={{
+              marginTop: index > 0 ? '-60px' : '0',
+              zIndex: 15 + index
+            }}
+          >
+            <PostItNote
+              title={title}
+              variant={variant}
+              rotation={position.rotation}
+              position={{ x: position.x, y: position.y }}
+            />
+          </div>
         )
       })}
+      </div>
+      
+      {/* Metrics Chart - shown after post it cards on mobile */}
+      <div className="relative md:absolute md:right-[470px] md:top-[50px] w-full md:w-[480px] p-4 md:p-6 z-20 mt-6 md:mt-0">
+        <MetricsChart />
+      </div>
     </div>
   )
 }

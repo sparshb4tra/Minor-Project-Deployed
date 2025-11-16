@@ -42,16 +42,16 @@ export default function DownloadButton() {
   }
 
   return (
-    <div className="fixed top-6 left-6 z-50">
+    <div className="fixed top-4 left-1/2 -translate-x-1/2 md:left-6 md:translate-x-0 md:top-6 z-50 w-full flex justify-center md:w-auto md:flex-none">
       <div className="relative">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="bg-[rgb(237,254,193)] text-[#0A1E5E] px-6 py-3 font-bold flex items-center gap-2 hover:bg-[rgb(237,254,193)]/90 transition-all duration-200 border border-[rgb(237,254,193)]"
+          className="bg-[rgb(237,254,193)] text-[#0A1E5E] px-4 py-2 md:px-6 md:py-3 text-sm md:text-base font-bold flex items-center gap-2 hover:bg-[rgb(237,254,193)]/90 transition-all duration-200 border border-[rgb(237,254,193)]"
           style={{ borderRadius: '0px' }}
         >
-          <Download className="w-5 h-5" />
+          <Download className="w-4 h-4 md:w-5 md:h-5" />
           <span>Download</span>
-          <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+          <ChevronDown className={`w-3 h-3 md:w-4 md:h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
         </button>
 
         {isOpen && (
@@ -60,7 +60,7 @@ export default function DownloadButton() {
               className="fixed inset-0 z-40" 
               onClick={() => setIsOpen(false)}
             />
-            <div className="absolute top-full left-0 mt-2 bg-[#0A1E5E] border border-[rgb(237,254,193)] z-50 min-w-[200px]" style={{ borderRadius: '0px' }}>
+            <div className="absolute top-full left-0 mt-2 bg-[#0A1E5E] border border-[rgb(237,254,193)] z-50 min-w-[180px] md:min-w-[200px]" style={{ borderRadius: '0px' }}>
               <div className="p-2 space-y-1">
                 {Object.entries(downloadLinks).map(([key, link]) => (
                   <button
@@ -69,14 +69,14 @@ export default function DownloadButton() {
                       handleDownload(key as OS)
                     }}
                     style={{ borderRadius: '0px' }}
-                    className="w-full flex items-center gap-3 px-4 py-3 transition-all duration-200 hover:bg-[rgb(237,254,193)]/10 border border-transparent"
+                    className="w-full flex items-center gap-2 md:gap-3 px-3 md:px-4 py-2 md:py-3 transition-all duration-200 hover:bg-[rgb(237,254,193)]/10 border border-transparent"
                   >
-                    <OSIcon os={link.os} className="w-6 h-6 text-[rgb(237,254,193)]" />
+                    <OSIcon os={link.os} className="w-5 h-5 md:w-6 md:h-6 text-[rgb(237,254,193)]" />
                     <div className="flex-1 text-left">
-                      <div className="font-ios font-semibold text-[rgb(237,254,193)] text-sm">
+                      <div className="font-ios font-semibold text-[rgb(237,254,193)] text-xs md:text-sm">
                         {link.name}
                       </div>
-                      <div className="font-ios text-xs text-[rgb(237,254,193)]/60">
+                      <div className="font-ios text-[10px] md:text-xs text-[rgb(237,254,193)]/60">
                         {link.extension}
                       </div>
                     </div>

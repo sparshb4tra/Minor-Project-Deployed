@@ -625,6 +625,14 @@ interface Pattern {
 
 export default function PatternLibrary({ randomize = false, seed }: PatternLibraryProps) {
   const [patterns, setPatterns] = useState<Pattern[]>([])
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   useEffect(() => {
     let patternList = Object.keys(drawPatterns).map((name, i) => ({
@@ -685,16 +693,42 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
 
   const totalPatterns = patterns.length
   const colsPerRow = totalPatterns > 0 ? Math.ceil(totalPatterns / 2) : 17
+  const mobileColsPerRow = 4 // Reduced for mobile
+  const mobileRows = 2
+  const mobilePatternCount = mobileColsPerRow * mobileRows
+  const desktopPatternCount = colsPerRow * 2
+  
+  const gridRef = React.useRef<HTMLDivElement>(null)
+  
+  useEffect(() => {
+    if (gridRef.current) {
+      if (isMobile) {
+        gridRef.current.style.gridTemplateColumns = `repeat(${mobileColsPerRow}, 1fr)`
+        gridRef.current.style.gridTemplateRows = `repeat(${mobileRows}, 1fr)`
+      } else {
+        gridRef.current.style.gridTemplateColumns = `repeat(${colsPerRow}, 1fr)`
+        gridRef.current.style.gridTemplateRows = `repeat(2, 1fr)`
+      }
+    }
+  }, [isMobile, colsPerRow, mobileColsPerRow, mobileRows])
+
+  const patternsToShow = isMobile 
+    ? patterns.slice(0, mobilePatternCount)
+    : patterns.slice(0, desktopPatternCount)
 
   return (
     <div className="w-full py-8 relative z-10" style={{ width: '100vw', marginLeft: 'calc(-50vw + 50%)' }}>
-      <div className="w-full px-6">
-        <div className="grid gap-2" style={{ 
-          gridTemplateColumns: `repeat(${colsPerRow}, 1fr)`,
-          gridTemplateRows: 'repeat(2, 1fr)',
-          maxWidth: '100%'
-        }}>
-          {patterns.slice(0, colsPerRow * 2).map((pattern) => (
+      <div className="w-full px-4 md:px-6">
+        <div 
+          ref={gridRef}
+          className="grid gap-2"
+          style={{ 
+            gridTemplateColumns: `repeat(${mobileColsPerRow}, 1fr)`,
+            gridTemplateRows: `repeat(${mobileRows}, 1fr)`,
+            maxWidth: '100%'
+          }}
+        >
+          {patternsToShow.map((pattern) => (
             <div 
               key={pattern.id}
               className="relative overflow-hidden border transition-colors cursor-pointer pointer-events-auto"
