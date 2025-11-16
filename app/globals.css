@@ -1,0 +1,191 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 0 0% 9%; /* Hardcore grey - very dark grey */
+    --foreground: 0 0% 98%;
+    --card: 0 0% 11%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 11%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 65%;
+    --accent: 0 0% 15%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 0 0% 40%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+  }
+  html {
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Color theme from RandomA11y - Exact Display P3 colors */
+  body {
+    background: color(display-p3 0.012 0.003 0.408);
+    color: color(display-p3 0.931 0.996 0.755);
+  }
+  
+  /* Fallback for browsers without Display P3 support */
+  @supports not (background: color(display-p3 1 1 1)) {
+    body {
+      background: #0A1E5E;
+      color: rgb(237, 254, 193);
+    }
+  }
+}
+
+/* Display P3 color space for wider color gamut */
+:root {
+  --color-1: color(display-p3 0.012 0.003 0.408); /* Deep blue */
+  --color-2: color(display-p3 0.931 0.996 0.755); /* Pale yellow-green */
+}
+
+/* Fallback colors for browsers that don't support Display P3 */
+@supports not (color: color(display-p3 1 1 1)) {
+  :root {
+    --color-1: #0A1E5E; /* Fallback deep blue */
+    --color-2: rgb(237, 254, 193); /* Fallback pale yellow-green */
+  }
+}
+
+/* Pattern card hover effect */
+article {
+  transition: transform 0.2s ease;
+}
+
+article:hover {
+  transform: translateY(-2px);
+}
+
+@layer utilities {
+  .font-serif {
+    font-family: var(--font-serif), 'Bodoni Moda', serif;
+  }
+  .font-script {
+    font-family: var(--font-script), 'Great Vibes', cursive;
+  }
+  .font-ios {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+  }
+}
+
+/* Optimized theme transitions - only essential properties */
+html {
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+body {
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+/* GPU acceleration for particle grid - optimized for instant hover */
+.grid > div {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Particle grid hover - instant on hover, delayed on leave */
+.particle-plus {
+  transform: translateZ(0);
+  will-change: transform, color;
+  backface-visibility: hidden;
+  transition: color 0.5s ease-out 0.5s, transform 0.5s ease-out 0.5s;
+}
+
+.particle-plus:hover {
+  color: rgb(237, 254, 193);
+  transform: scale(1.2);
+  transition: color 0s, transform 0s;
+  transition-delay: 0s;
+}
+
+/* Animations for comparison sections */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.6s ease-out;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 20s linear infinite;
+}
