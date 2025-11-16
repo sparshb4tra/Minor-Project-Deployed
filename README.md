@@ -1,26 +1,18 @@
 # Local AI Chat - Landing Page
 
-A modern, minimalist landing page for Local AI Chat built with Next.js, React, and Tailwind CSS.
+Modern landing page for Local AI Chat built with Next.js, TypeScript, and Tailwind CSS.
 
-## Overview
+## Features
 
-This landing page showcases a local AI chat application with a clean design featuring:
 - Animated pattern separators
-- Interactive comparison section with post-it notes
+- Interactive comparison section
 - Performance metrics visualization
-- Platform-specific download section
-- Custom color theme (navy blue & beige)
-
-## Tech Stack
-
-- **Next.js 14** - React framework
-- **TypeScript** - Type safety
-- **Tailwind CSS** - Styling
-- **Canvas API** - Animated patterns
+- Platform-specific downloads
+- Custom theme (navy blue & beige)
 
 ## Screenshots
 
-Add your website screenshots here (landscape/desktop mode):
+Add landscape/desktop screenshots here:
 
 ```
 screenshots/
@@ -29,15 +21,3 @@ screenshots/
   ├── download-section.png
   └── footer.png
 ```
-
-## Development
-
-```bash
-npm install
-npm run dev
-```
-
-## Deployment
-
-Deployed on Vercel: [Your deployment URL]
-
