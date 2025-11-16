@@ -10,9 +10,22 @@ Modern landing page for Local AI Chat built with Next.js, TypeScript, and Tailwi
 - Platform-specific downloads
 - Custom theme (navy blue & beige)
 
-## Screenshots
+## Preview Screenshot
 
-Add landscape/desktop screenshots here:
+Add your website preview screenshot here:
+
+**Location:** `public/preview.png` or `public/og-image.png`
+
+This image will be used for:
+- GitHub repository preview
+- Social media sharing (Open Graph)
+- Website preview cards
+
+**Recommended size:** 1200x630px (landscape/desktop mode)
+
+## Additional Screenshots
+
+Optional detailed screenshots:
 
 ```
 screenshots/
