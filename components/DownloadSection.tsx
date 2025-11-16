@@ -57,7 +57,6 @@ export default function DownloadSection() {
 
   const handleOSClick = (os: 'windows' | 'mac' | 'linux') => {
     setSelectedOS(os)
-    // Trigger download
     const link = downloadLinks[os]
     const a = document.createElement('a')
     a.href = link.file
@@ -74,7 +73,6 @@ export default function DownloadSection() {
 
   return (
     <div className="w-full max-w-5xl mx-auto space-y-12 pb-20 select-none">
-      {/* Download Buttons */}
       <div className="text-center space-y-6">
         <h2 className="text-4xl md:text-5xl font-serif font-bold tracking-tight text-[rgb(237,254,193)] mb-4">
           Get Started
@@ -119,7 +117,6 @@ export default function DownloadSection() {
         </div>
       </div>
 
-      {/* Installation Steps - Only show when OS is selected */}
       {selectedOS && steps && (
         <div 
           className="border-2 p-6 space-y-6"
@@ -215,7 +212,6 @@ export default function DownloadSection() {
         </div>
       )}
 
-      {/* Code Editor - One useful snippet for all OSes */}
       <div 
         className="border-2 p-6"
         style={{

@@ -29,16 +29,11 @@ export default function MetricsChart() {
       
       return (
         <div key={index} className="flex items-center gap-6">
-          
-          {/* Label */}
           <div className="w-40 text-[rgb(237,254,193)] text-base font-ios font-semibold">
             {metric.label}
           </div>
 
-          {/* Bars */}
           <div className="flex items-center gap-4 w-full">
-
-            {/* Local bar */}
             <div className="relative w-full h-10 bg-transparent border border-[rgb(237,254,193)] overflow-hidden">
               <div 
                 className="h-full bg-[rgb(237,254,193)] flex items-center justify-end pr-3 transition-all duration-700 rounded-none"
@@ -50,7 +45,6 @@ export default function MetricsChart() {
               </div>
             </div>
 
-            {/* Industry bar */}
             <div className="relative w-28 h-10 bg-transparent border border-[rgb(237,254,193)]/70 overflow-hidden">
               <div 
                 className="h-full bg-[rgb(237,254,193)]/60 flex items-center justify-end pr-3 transition-all duration-700 rounded-none"
@@ -70,7 +64,6 @@ export default function MetricsChart() {
 
   </div>
 
-  {/* Legend */}
   <div className="mt-8 flex gap-10 justify-center text-sm">
     <div className="flex items-center gap-2">
       <div className="w-4 h-4 bg-[rgb(237,254,193)] border border-[rgb(237,254,193)] rounded-none" />

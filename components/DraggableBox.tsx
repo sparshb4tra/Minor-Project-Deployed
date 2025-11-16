@@ -43,16 +43,13 @@ export default function DraggableBox({
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef<HTMLElement | null>(null)
 
-  // Find page 2 container and convert initial position to container-relative
   useEffect(() => {
     if (boxRef.current) {
       let parent = boxRef.current.parentElement
       while (parent) {
         if (parent.classList.contains('min-h-screen') || parent.id === 'page-2') {
           containerRef.current = parent
-          // Convert initial position to container-relative
           const containerRect = parent.getBoundingClientRect()
-          // Use initialX/Y as screen coordinates, convert to container-relative
           setPosition({
             x: Math.max(0, initialX - containerRect.left),
             y: Math.max(0, initialY - containerRect.top)
@@ -64,7 +61,6 @@ export default function DraggableBox({
     }
   }, [initialX, initialY])
 
-  // Pattern canvas
   useEffect(() => {
     if (!canvasRef.current) return
 
@@ -134,7 +130,6 @@ export default function DraggableBox({
 
       if (patternType === 'radial' || patternType === 'wave') {
         frame++
-        // Use requestAnimationFrame for smooth animation
         requestAnimationFrame(drawPattern)
       }
     }
@@ -148,11 +143,9 @@ export default function DraggableBox({
         const newX = e.clientX - dragOffset.x
         const newY = e.clientY - dragOffset.y
         
-        // Get container bounds
         const containerRect = containerRef.current.getBoundingClientRect()
         const boxRect = boxRef.current.getBoundingClientRect()
         
-        // Constrain to page 2 boundaries strictly
         const leftBoundary = containerRect.left
         const rightBoundary = containerRect.right - size.width
         const topBoundary = containerRect.top
@@ -184,7 +177,6 @@ export default function DraggableBox({
     if (boxRef.current && containerRef.current) {
       const containerRect = containerRef.current.getBoundingClientRect()
       const boxRect = boxRef.current.getBoundingClientRect()
-      // Calculate offset relative to container
       setDragOffset({
         x: e.clientX - boxRect.left,
         y: e.clientY - boxRect.top
@@ -258,7 +250,6 @@ export default function DraggableBox({
           willChange: patternType === 'radial' || patternType === 'wave' ? 'contents' : 'auto'
         }}
       />
-      {/* Header */}
       <div
         className="flex items-center justify-between px-3 py-2 border-b-2 relative z-10"
         style={{ 
@@ -270,7 +261,6 @@ export default function DraggableBox({
         <span className="text-sm font-semibold font-ios">{title}</span>
         <div className="flex items-center gap-2">
           {isDialogBox ? (
-            // Dialog boxes: only close button
             onClose && (
               <button
                 onClick={onClose}
@@ -285,7 +275,6 @@ export default function DraggableBox({
               </button>
             )
           ) : (
-            // Code boxes: all buttons (copy, maximize, minimize, close)
             <>
               {hasCopyButton && !isMinimized && (
                 <button

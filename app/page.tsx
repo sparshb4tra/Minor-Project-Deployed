@@ -12,10 +12,8 @@ export default function Home() {
       background: 'color(display-p3 0.012 0.003 0.408)',
       color: 'color(display-p3 0.931 0.996 0.755)'
     }}>
-      {/* Download Button - Top Left */}
       <DownloadButton />
 
-      {/* Left Vertical Ribbon - Rotated Text */}
       <div className="fixed left-16 top-0 bottom-0 w-[80px] flex items-center justify-center z-30">
         <p 
           className="text-4xl md:text-5xl tracking-wide text-[rgb(237,254,193)]/90 font-script italic select-none whitespace-nowrap"
@@ -28,7 +26,6 @@ export default function Home() {
         </p>
       </div>
 
-      {/* Vertical Ribbon Grid - Right Side - Broader and More Left */}
       <div className="fixed right-[60px] top-0 bottom-0 w-[400px] border-l border-r border-[rgb(237,254,193)] z-30" style={{ 
         borderColor: 'color(display-p3 0.931 0.996 0.755)',
         borderWidth: '1px',
@@ -54,16 +51,13 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Hero Section */}
       <section className="relative min-h-screen w-full flex items-center justify-center overflow-hidden z-10 select-none" style={{ marginTop: 0, paddingTop: 0 }}>
         <div className="w-full max-w-4xl mx-auto px-6 py-20 pr-[480px] pl-12">
           <div className="space-y-20 text-left">
-            {/* Hey - Separated at the top */}
             <h1 className="text-6xl md:text-7xl font-serif font-bold tracking-tight leading-tight select-none">
               Hey,
             </h1>
             
-            {/* Main Content - Centered and Larger */}
             <div className="space-y-6 max-w-2xl">
               <p className="text-3xl md:text-4xl tracking-tight font-ios leading-tight select-none">
                 <span className="block mb-2">Tired of your</span>
@@ -125,27 +119,22 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Pattern Library Separator - Between Page 1 and Page 2 */}
       <div className="relative z-10 bg-[#0A1E5E]" style={{ background: 'color(display-p3 0.012 0.003 0.408)' }}>
         <PatternLibrary />
       </div>
 
-      {/* Comparison Section */}
       <section className="relative z-10 py-16 px-6 bg-[#0A1E5E]" style={{ background: 'color(display-p3 0.012 0.003 0.408)' }}>
         <ComparisonSection />
       </section>
 
-      {/* Pattern Library Separator - Between Page 2 and Page 3 */}
       <div className="relative z-10 bg-[#0A1E5E]" style={{ background: 'color(display-p3 0.012 0.003 0.408)' }}>
         <PatternLibrary randomize={true} seed={12345} />
       </div>
 
-      {/* Download Section */}
       <section className="relative z-10 py-20 px-6 pr-[480px] bg-[#0A1E5E]" style={{ background: 'color(display-p3 0.012 0.003 0.408)' }}>
         <DownloadSection />
       </section>
 
-      {/* Footer */}
       <Footer />
     </main>
   )

@@ -33,7 +33,6 @@ export default function OSIcon({ os, className = '' }: OSIconProps) {
     )
   }
   
-  // Linux - Tux penguin
   return (
     <Image
       src="/images/linux-logo.png"

@@ -9,7 +9,6 @@ export default function Footer() {
       background: 'color(display-p3 0.012 0.003 0.408)',
       color: 'color(display-p3 0.931 0.996 0.755)'
     }}>
-      {/* Warped Space Pattern */}
       <WarpedSpacePattern />
       
       <div className="max-w-5xl mx-auto px-6 py-10">

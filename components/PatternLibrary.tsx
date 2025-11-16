@@ -7,12 +7,10 @@ interface PatternLibraryProps {
   seed?: number
 }
 
-// Fisher-Yates shuffle function
 function shuffleArray<T>(array: T[], seed?: number): T[] {
   const shuffled = [...array]
   let random = seed !== undefined ? seed : Math.random()
   
-  // Simple seeded random function
   const seededRandom = () => {
     random = (random * 9301 + 49297) % 233280
     return random / 233280
@@ -28,7 +26,6 @@ function shuffleArray<T>(array: T[], seed?: number): T[] {
 
 type PatternFunction = (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[], frame?: number) => void
 
-// Pattern drawing functions - defined outside component to avoid React Hook dependency warning
 const drawPatterns: Record<string, PatternFunction> = {
     horizontalLines: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       const lineHeight = 3
@@ -323,7 +320,6 @@ const drawPatterns: Record<string, PatternFunction> = {
         }
       }
     },
-    // Animated patterns
     radial: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[], frame = 0) => {
       const centerX = w / 2
       const centerY = h / 2
@@ -434,7 +430,6 @@ const drawPatterns: Record<string, PatternFunction> = {
           ctx.fillRect(x, y, dotSize, dotSize)
         }
       }
-      // Add corner square
       ctx.fillRect(w - 12, h - 12, 8, 8)
     },
     dotsCircle: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
@@ -454,7 +449,6 @@ const drawPatterns: Record<string, PatternFunction> = {
           }
         }
       }
-      // Plus in center
       ctx.fillRect(centerX - 2, centerY - 6, 4, 12)
       ctx.fillRect(centerX - 6, centerY - 2, 12, 4)
     },
@@ -484,14 +478,12 @@ const drawPatterns: Record<string, PatternFunction> = {
     fourTriangles: (ctx: CanvasRenderingContext2D, w: number, h: number, colors: string[]) => {
       const midX = w / 2
       const midY = h / 2
-      // Top-left triangle
       ctx.fillStyle = colors[0]
       ctx.beginPath()
       ctx.moveTo(0, 0)
       ctx.lineTo(midX, 0)
       ctx.lineTo(0, midY)
       ctx.fill()
-      // Top-right triangle (diagonal lines)
       ctx.strokeStyle = colors[0]
       ctx.lineWidth = 1
       for (let i = 0; i < 8; i++) {
@@ -500,14 +492,12 @@ const drawPatterns: Record<string, PatternFunction> = {
         ctx.lineTo(w, i * 2)
         ctx.stroke()
       }
-      // Bottom-left triangle (diagonal lines reverse)
       for (let i = 0; i < 8; i++) {
         ctx.beginPath()
         ctx.moveTo(0, midY + i * 2)
         ctx.lineTo(i * 2, h)
         ctx.stroke()
       }
-      // Bottom-right triangle
       ctx.fillStyle = colors[0]
       ctx.beginPath()
       ctx.moveTo(midX, midY)
@@ -645,11 +635,9 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
       animated: ['radial', 'wave', 'animatedGrid'].includes(name),
     }))
     
-    // Randomize if requested
     if (randomize) {
       const randomSeed = seed !== undefined ? seed : Math.random() * 1000000
       patternList = shuffleArray(patternList, randomSeed)
-      // Re-assign IDs after shuffle to maintain uniqueness
       patternList = patternList.map((p, i) => ({ ...p, id: i }))
     }
     
@@ -674,23 +662,19 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
       let animationId: number | null = null
 
       const draw = () => {
-        // Clear and set background - using exact RandomA11y blue
         ctx.fillStyle = '#0A1E5E'
         ctx.fillRect(0, 0, w, h)
 
-        // Draw pattern
         if (pattern.animated) {
           pattern.draw(ctx, w, h, ['rgb(237,254,193)'], frame)
           frame++
           animationId = requestAnimationFrame(draw)
           if (animationId) animations.push(animationId)
         } else {
-          // Draw non-animated patterns immediately
           pattern.draw(ctx, w, h, ['rgb(237,254,193)'])
         }
       }
 
-      // Always call draw at least once
       draw()
     })
 
@@ -699,7 +683,6 @@ export default function PatternLibrary({ randomize = false, seed }: PatternLibra
     }
   }, [patterns])
 
-  // Calculate columns per row - aim for 2 equal rows
   const totalPatterns = patterns.length
   const colsPerRow = totalPatterns > 0 ? Math.ceil(totalPatterns / 2) : 17
 

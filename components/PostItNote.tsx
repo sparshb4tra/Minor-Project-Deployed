@@ -19,8 +19,6 @@ export default function PostItNote({
   const isBeige = variant === 'beige'
   const bgColor = isBeige ? cream : navy
   const textColor = isBeige ? navy : cream
-  
-  // Natural rotation variations
   const naturalRotation = rotation || 0
   
   return (
