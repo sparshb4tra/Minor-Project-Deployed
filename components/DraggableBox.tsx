@@ -232,7 +232,6 @@ export default function DraggableBox({
         position: 'relative'
       }}
     >
-      {/* Pattern Background */}
       <canvas
         ref={canvasRef}
         width={128}
@@ -338,7 +337,6 @@ export default function DraggableBox({
         </div>
       </div>
 
-      {/* Content */}
       {!isMinimized && (
         <div className="p-4 h-full overflow-auto relative z-10" style={{ height: `calc(100% - 40px)` }}>
           {typeof content === 'string' ? (
