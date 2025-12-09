@@ -18,12 +18,3 @@ Modern, fully responsive landing page for Local AI Chat built with Next.js, Type
 
 ### Mobile View
 ![Mobile Preview](./public/preview-mobile.png)
-
-
-## Tech Stack
-
-- **Framework**: Next.js 14
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **Icons**: Lucide React
-- **Deployment**: Vercel
